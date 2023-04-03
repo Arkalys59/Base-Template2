@@ -255,6 +255,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `inventory` longtext DEFAULT NULL,
   `job` varchar(20) DEFAULT 'unemployed',
   `job_grade` int(11) DEFAULT 0,
+  `job2` varchar(20) DEFAULT 'unemployed',
+  `job2_grade` int(11) DEFAULT 0,
   `loadout` longtext DEFAULT NULL,
   `metadata` longtext DEFAULT NULL,
   `position` longtext DEFAULT NULL,
