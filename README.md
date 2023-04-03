@@ -14,6 +14,11 @@
   </p>
 </div>
 
+## About The Project
+
+This Template is intended to help you in the beginning of your base with the most recent resources possible. The extended has the double job, which was added by me. 
+For any installation problem, or bug. Please go to RexTon's discord (https://discord.gg/v8nrrJd4Zw), I will answer you with pleasure, of course only if you are polite. 
+
 ## Getting Started
 
 ### Installation : 
