@@ -3,7 +3,7 @@ SetGameType('ESX Legacy')
 
 local oneSyncState = GetConvar('onesync', 'off')
 local newPlayer = 'INSERT INTO `users` SET `accounts` = ?, `identifier` = ?, `group` = ?'
-local loadPlayer = 'SELECT `accounts`, `job`, `job_grade`, `group`, `position`, `inventory`, `skin`, `loadout`, `metadata`'
+local loadPlayer = 'SELECT `accounts`, `job`, `job_grade`, `job2`, `job2_grade`, `group`, `position`, `inventory`, `skin`, `loadout`, `metadata`'
 
 if Config.Multichar then
   newPlayer = newPlayer .. ', `firstname` = ?, `lastname` = ?, `dateofbirth` = ?, `sex` = ?, `height` = ?'
@@ -121,9 +121,11 @@ if not Config.Multichar then
 end
 
 function loadESXPlayer(identifier, playerId, isNew)
-  local userData = {accounts = {}, inventory = {}, job = {}, loadout = {}, playerName = GetPlayerName(playerId), weight = 0, metadata = {}}
+  local userData = {accounts = {}, inventory = {}, job = {}, job2 = {}, loadout = {}, playerName = GetPlayerName(playerId), weight = 0}
+  
   local result = MySQL.prepare.await(loadPlayer, {identifier})
   local job, grade, jobObject, gradeObject = result.job, tostring(result.job_grade)
+  local job2, grade2, job2bject, grade2Object = result.job2, tostring(result.job2_grade)
   local foundAccounts, foundItems = {}, {}
 
   -- Accounts
@@ -176,6 +178,34 @@ function loadESXPlayer(identifier, playerId, isNew)
   if gradeObject.skin_female then
     userData.job.skin_female = json.decode(gradeObject.skin_female)
   end
+
+  if ESX.DoesJobExist(job2, grade2) then
+    job2Object, grade2Object = ESX.Jobs[job2], ESX.Jobs[job2].grades[grade2]
+  else
+    print(('[^3WARNING^7] Ignoring invalid job2 for ^5%s^7 [job2: ^5%s^7, grade: ^5%s^7]'):format(identifier, job2, grade2))
+    jo2, grade2 = 'unemployed', '0'
+    job2Object, grade2Object = ESX.Jobs[job2], ESX.Jobs[job2].grades[grade2]
+  end
+
+  userData.job2.id = job2Object.id
+  userData.job2.name = job2Object.name
+  userData.job2.label = job2Object.label
+
+  userData.job2.grade = tonumber(grade2)
+  userData.job2.grade_name = grade2Object.name
+  userData.job2.grade_label = grade2Object.label
+  userData.job2.grade_salary = grade2Object.salary
+
+  userData.job2.skin_male = {}
+  userData.job2.skin_female = {}
+
+  if grade2Object.skin_male then
+    userData.job2.skin_male = json.decode(grade2Object.skin_male)
+  end
+  if grade2Object.skin_female then
+    userData.job2.skin_female = json.decode(grade2Object.skin_female)
+  end
+
 
   -- Inventory
   if not Config.OxInventory then
@@ -285,8 +315,7 @@ function loadESXPlayer(identifier, playerId, isNew)
     userData.metadata = metadata
   end
 
-  local xPlayer = CreateExtendedPlayer(playerId, identifier, userData.group, userData.accounts, userData.inventory, userData.weight, userData.job,
-    userData.loadout, userData.playerName, userData.coords, userData.metadata)
+  local xPlayer = CreateExtendedPlayer(playerId, identifier, userData.group, userData.accounts, userData.inventory, userData.weight, userData.job, userData.job2, userData.loadout, userData.playerName, userData.coords)
   ESX.Players[playerId] = xPlayer
   Core.playersByIdentifier[identifier] = xPlayer
 
@@ -301,30 +330,30 @@ function loadESXPlayer(identifier, playerId, isNew)
     end
     if userData.height then
       xPlayer.set('height', userData.height)
-    end
-  end
+    end 
+  end 
 
   TriggerEvent('esx:playerLoaded', playerId, xPlayer, isNew)
 
   xPlayer.triggerEvent('esx:playerLoaded',
-    {
-      accounts = xPlayer.getAccounts(),
-      coords = xPlayer.getCoords(),
-      identifier = xPlayer.getIdentifier(),
-      inventory = xPlayer.getInventory(),
-      job = xPlayer.getJob(),
-      loadout = xPlayer.getLoadout(),
-      maxWeight = xPlayer.getMaxWeight(),
-      money = xPlayer.getMoney(),
-      sex = xPlayer.get("sex") or "m",
-      firstName = xPlayer.get("firstName") or "John",
-      lastName = xPlayer.get("lastName") or "Doe",
-      dateofbirth = xPlayer.get("dateofbirth") or "01/01/2000",
-      height = xPlayer.get("height") or 120,
-      dead = false,
-      metadata = xPlayer.getMeta()
-    }, isNew,
-    userData.skin)
+  {
+    accounts = xPlayer.getAccounts(),
+    coords = xPlayer.getCoords(),
+    identifier = xPlayer.getIdentifier(),
+    inventory = xPlayer.getInventory(),
+    job = xPlayer.getJob(),
+    job2 = xPlayer.getJob2(),
+    loadout = xPlayer.getLoadout(),
+    maxWeight = xPlayer.getMaxWeight(),
+    money = xPlayer.getMoney(),
+    sex = xPlayer.get("sex") or "m",
+    firstName = xPlayer.get("firstName") or "John",
+    lastName = xPlayer.get("lastName") or "Doe",
+    dateofbirth = xPlayer.get("dateofbirth") or "01/01/2000",
+    height = xPlayer.get("height") or 120,
+    dead = false
+  }, isNew,
+  userData.skin)
 
   if not Config.OxInventory then
     xPlayer.triggerEvent('esx:createMissingPickups', Core.Pickups)
@@ -593,8 +622,7 @@ end
 ESX.RegisterServerCallback('esx:getPlayerData', function(source, cb)
   local xPlayer = ESX.GetPlayerFromId(source)
 
-  cb({identifier = xPlayer.identifier, accounts = xPlayer.getAccounts(), inventory = xPlayer.getInventory(), job = xPlayer.getJob(),
-      loadout = xPlayer.getLoadout(), money = xPlayer.getMoney(), position = xPlayer.getCoords(true), metadata = xPlayer.getMeta()})
+  cb({identifier = xPlayer.identifier, accounts = xPlayer.getAccounts(), inventory = xPlayer.getInventory(), job = xPlayer.getJob(), userData.job2, loadout = xPlayer.getLoadout(), money = xPlayer.getMoney(), position = xPlayer.getCoords(true)})
 end)
 
 ESX.RegisterServerCallback('esx:isUserAdmin', function(source, cb)
@@ -607,9 +635,7 @@ end)
 
 ESX.RegisterServerCallback('esx:getOtherPlayerData', function(source, cb, target)
   local xPlayer = ESX.GetPlayerFromId(target)
-
-  cb({identifier = xPlayer.identifier, accounts = xPlayer.getAccounts(), inventory = xPlayer.getInventory(), job = xPlayer.getJob(),
-      loadout = xPlayer.getLoadout(), money = xPlayer.getMoney(), position = xPlayer.getCoords(true), metadata = xPlayer.getMeta()})
+  cb({identifier = xPlayer.identifier, accounts = xPlayer.getAccounts(), inventory = xPlayer.getInventory(), job = xPlayer.getJob(), userData.job2, loadout = xPlayer.getLoadout(), money = xPlayer.getMoney(), position = xPlayer.getCoords(true)})
 end)
 
 ESX.RegisterServerCallback('esx:getPlayerNames', function(source, cb, players)

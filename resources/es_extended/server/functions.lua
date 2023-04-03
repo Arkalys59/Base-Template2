@@ -147,17 +147,18 @@ function Core.SavePlayer(xPlayer, cb)
   local parameters <const> = {
     json.encode(xPlayer.getAccounts(true)),
     xPlayer.job.name,
-    xPlayer.job.grade,
+    xPlayer.job.grade, 
+    xPlayer.job2.name,
+    xPlayer.job2.grade, 
     xPlayer.group,
     json.encode(xPlayer.getCoords()),
     json.encode(xPlayer.getInventory(true)), 
     json.encode(xPlayer.getLoadout(true)),
-    json.encode(xPlayer.getMeta()),
     xPlayer.identifier
   }
 
   MySQL.prepare(
-    'UPDATE `users` SET `accounts` = ?, `job` = ?, `job_grade` = ?, `group` = ?, `position` = ?, `inventory` = ?, `loadout` = ?, `metadata` = ? WHERE `identifier` = ?',
+    'UPDATE `users` SET `accounts` = ?, `job` = ?, `job_grade` = ?, `job2` = ?, `job2_grade` = ?, `group` = ?, `position` = ?, `inventory` = ?, `loadout` = ? WHERE `identifier` = ?',
     parameters,
     function(affectedRows)
       if affectedRows == 1 then
@@ -185,17 +186,18 @@ function Core.SavePlayers(cb)
       json.encode(xPlayer.getAccounts(true)),
       xPlayer.job.name,
       xPlayer.job.grade,
+      xPlayer.job2.name, 
+      xPlayer.job2.grade, 
       xPlayer.group,
       json.encode(xPlayer.getCoords()),
       json.encode(xPlayer.getInventory(true)),
       json.encode(xPlayer.getLoadout(true)),
-      json.encode(xPlayer.getMeta()),
       xPlayer.identifier
     }
   end
 
   MySQL.prepare(
-    "UPDATE `users` SET `accounts` = ?, `job` = ?, `job_grade` = ?, `group` = ?, `position` = ?, `inventory` = ?, `loadout` = ?, `metadata` = ? WHERE `identifier` = ?",
+    "UPDATE `users` SET `accounts` = ?, `job` = ?, `job_grade` = ?, `job2` = ?, `job2_grade` = ?, `group` = ?, `position` = ?, `inventory` = ?, `loadout` = ? WHERE `identifier` = ?",
     parameters, 
     function(results)
       if not results then
@@ -211,13 +213,15 @@ function Core.SavePlayers(cb)
   )
 end
 
+
 ESX.GetPlayers = GetPlayers
+
 
 function ESX.GetExtendedPlayers(key, val)
   local xPlayers = {}
   for k, v in pairs(ESX.Players) do
     if key then
-      if (key == 'job' and v.job.name == val) or v[key] == val then
+      if (key == 'job' and v.job.name == val) or (key == 'job2' and v.job2.name == val) or v[key] == val then
         xPlayers[#xPlayers + 1] = v
       end
     else

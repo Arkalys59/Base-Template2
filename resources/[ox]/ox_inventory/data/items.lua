@@ -194,11 +194,4 @@ return {
 		label = 'Scrap Metal',
 		weight = 80,
 	},
-
-	["bread"] = {
-		label = "Bread",
-		weight = 1,
-		stack = true,
-		close = true,
-	},
 }

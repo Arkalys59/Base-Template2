@@ -275,11 +275,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
--- Listage des données de la table legacy.users : ~0 rows (environ)
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` (`identifier`, `accounts`, `group`, `inventory`, `job`, `job_grade`, `job2`, `job2_grade`, `loadout`, `metadata`, `position`, `firstname`, `lastname`, `dateofbirth`, `sex`, `height`, `skin`, `id`, `disabled`, `created_at`, `last_seen`, `pincode`) VALUES
-	('char1:624d4828792842ea8a63835f04e742a1316648b3', '{"bank":50200,"money":0,"black_money":0}', 'admin', '[]', 'unemployed', 0, 'unemployed', 0, '[]', '[]', '{"z":29.229248046875,"y":-1395.072509765625,"x":92.83516693115235,"heading":53.85826873779297}', 'Jhon', 'Aaron', '08/02/1983', 'm', 190, '{"mask_2":0,"chest_3":0,"chain_1":22,"blush_1":0,"eyebrows_4":0,"face_md_weight":50,"bracelets_1":-1,"torso_1":23,"bodyb_2":0,"arms_2":0,"beard_3":0,"watches_1":-1,"bags_2":0,"makeup_3":0,"lipstick_2":0,"chin_1":0,"torso_2":2,"complexion_1":0,"pants_2":3,"blush_2":0,"hair_color_1":3,"tshirt_2":2,"tshirt_1":4,"nose_6":0,"nose_1":0,"shoes_2":2,"nose_2":0,"chin_13":0,"glasses_1":0,"glasses_2":0,"bracelets_2":0,"cheeks_2":0,"age_1":0,"blemishes_2":0,"moles_2":0,"makeup_1":0,"watches_2":0,"lipstick_3":0,"makeup_4":0,"chain_2":2,"eye_squint":0,"hair_2":0,"blemishes_1":0,"makeup_2":0,"nose_5":0,"bodyb_4":0,"jaw_2":0,"nose_3":0,"eyebrows_1":0,"helmet_2":0,"neck_thickness":1,"mask_1":0,"chest_2":0,"eye_color":0,"eyebrows_2":0,"lip_thickness":0,"bags_1":0,"moles_1":0,"decals_2":0,"mom":21,"eyebrows_5":0,"chin_4":0,"pants_1":28,"decals_1":0,"nose_4":0,"sex":0,"lipstick_1":0,"jaw_1":0,"hair_color_2":0,"skin_md_weight":50,"chest_1":0,"ears_1":-1,"ears_2":0,"beard_4":0,"complexion_2":0,"blush_3":0,"cheeks_1":0,"bodyb_1":-1,"helmet_1":-1,"lipstick_4":0,"eyebrows_6":0,"beard_1":11,"sun_2":0,"hair_1":6,"bodyb_3":-1,"age_2":0,"sun_1":0,"arms":1,"cheeks_3":0,"eyebrows_3":0,"bproof_2":0,"chin_2":0,"bproof_1":0,"dad":0,"chin_3":0,"beard_2":10,"shoes_1":70}', 3, 0, '2023-04-02 18:53:22', '2023-04-02 22:11:41', NULL);
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+
 
 -- Listage de la structure de la table legacy. user_licenses
 CREATE TABLE IF NOT EXISTS `user_licenses` (
