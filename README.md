@@ -33,6 +33,10 @@ For any installation problem, or bug. Please go to RexTon's discord (https://dis
    ```
 4. Launch your server and enjoy. 
 
+### Disclaimer
+
+esx_society is not compatible with job2. You can do it if you want. (Or contact me, it depends if you are nice or not $) 
+
 _Of course, you can modify the elements as you wish. Except es_extended which could create problems._
 
 ### Example of how to add food in ox_inventory for esx_status. 
