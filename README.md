@@ -71,7 +71,7 @@ _Of course, you can modify the elements as you wish. Except es_extended which co
   ```
 3. You can change the value of the food it adds to your food or thirst bar. 
   ```sh 
-  			status = { thirst = 200000 },
+  	status = { thirst = 200000 },
         or 
         status = { hunger = 200000 },
   ```
