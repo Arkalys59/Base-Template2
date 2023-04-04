@@ -1,35 +1,36 @@
 return {
-	['testburger'] = {
-		label = 'Test Burger',
+	['burger'] = {
+		label = 'Burger',
 		weight = 220,
-		degrade = 60,
 		client = {
 			status = { hunger = 200000 },
 			anim = 'eating',
 			prop = 'burger',
+			label = "Vous mangez un Hamburger",
 			usetime = 2500,
-			export = 'ox_inventory_examples.testburger'
+			notification = 'Tu as mangé un délicieux burger !',
+			export = 'ox_inventory.hunger',
 		},
-		server = {
-			export = 'ox_inventory_examples.testburger',
-			test = 'what an amazingly delicious burger, amirite?'
-		},
-		buttons = {
-			{
-				label = 'Lick it',
-				action = function(slot)
-					print('You licked the burger')
-				end
-			},
-			{
-				label = 'Squeeze it',
-				action = function(slot)
-					print('You squeezed the burger :(')
-				end
-			}
-		},
-		consume = 0.3
 	},
+
+	['water'] = {
+		label = 'Water',
+		weight = 500,
+		client = {
+			status = { thirst = 200000 },
+			anim = { dict = 'mp_player_intdrink', clip = 'loop_bottle' },
+			prop = { model = `prop_ld_flow_bottle`, pos = vec3(0.03, 0.03, 0.02), rot = vec3(0.0, 0.0, -1.5) },
+			label = "Vous buvez de l'eau",
+			usetime = 2500,
+			cancel = true,
+			notification = 'You drank some refreshing water',
+			export = 'ox_inventory.thirst',
+		}
+	},
+
+
+
+
 
 	['bandage'] = {
 		label = 'Bandage',
@@ -46,29 +47,7 @@ return {
 		label = 'Dirty Money',
 	},
 
-	['burger'] = {
-		label = 'Burger',
-		weight = 220,
-		client = {
-			status = { hunger = 200000 },
-			anim = 'eating',
-			prop = 'burger',
-			usetime = 2500,
-			notification = 'You ate a delicious burger'
-		},
-	},
 
-	['cola'] = {
-		label = 'eCola',
-		weight = 350,
-		client = {
-			status = { thirst = 200000 },
-			anim = { dict = 'mp_player_intdrink', clip = 'loop_bottle' },
-			prop = { model = `prop_ecola_can`, pos = vec3(0.01, 0.01, 0.06), rot = vec3(5.0, 5.0, -180.5) },
-			usetime = 2500,
-			notification = 'You quenched your thirst with cola'
-		}
-	},
 
 	['parachute'] = {
 		label = 'Parachute',
@@ -149,19 +128,6 @@ return {
 		}
 	},
 
-	['water'] = {
-		label = 'Water',
-		weight = 500,
-		client = {
-			status = { thirst = 200000 },
-			anim = { dict = 'mp_player_intdrink', clip = 'loop_bottle' },
-			prop = { model = `prop_ld_flow_bottle`, pos = vec3(0.03, 0.03, 0.02), rot = vec3(0.0, 0.0, -1.5) },
-			usetime = 2500,
-			cancel = true,
-			notification = 'You drank some refreshing water'
-		}
-	},
-
 	['radio'] = {
 		label = 'Radio',
 		weight = 1000,
@@ -193,5 +159,19 @@ return {
 	['scrapmetal'] = {
 		label = 'Scrap Metal',
 		weight = 80,
+	},
+
+	["bread"] = {
+		label = "Bread",
+		weight = 1,
+		stack = true,
+		close = true,
+	},
+
+	["medikit"] = {
+		label = "Medikit",
+		weight = 2,
+		stack = true,
+		close = true,
 	},
 }

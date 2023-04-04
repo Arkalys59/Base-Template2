@@ -133,6 +133,32 @@ Item('clothing', function(data, slot)
 	end)
 end)
 
+exports('hunger', function(data, slot)
+	TriggerEvent('esx_status:getStatus', 'hunger', function(status)
+		Food_status = status.getPercent()
+		if Food_status <= 1 or Food_status >= 98 then 
+			lib.notify({description = "Vous n'avez plus faim !"})
+			return false 
+		else 
+			exports.ox_inventory:useItem(data) 
+		end 
+	end)
+end)
+
+
+exports('thirst', function(data, slot)
+	TriggerEvent('esx_status:getStatus', 'thirst', function(status)
+		Thirst_status = status.getPercent()
+		if Thirst_status <= 1 or Thirst_status >= 98 then 
+			lib.notify({description = "Vous n'avez plus soif !"})
+			return false 
+		else 
+			exports.ox_inventory:useItem(data)
+		end 
+	end)
+end)
+
+
 -----------------------------------------------------------------------------------------------
 
 exports('Items', GetItem)
