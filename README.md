@@ -27,7 +27,9 @@ For any installation problem, or bug. Please go to RexTon's discord (https://dis
 2. Import the sql into your database. 
 3. Update the information about your database in the server.cfg
    ```sh
-    set mysql_connection_string "mysql://USER:PASSWORD@localhost/DATABASENAME?waitForConnections=true&charset=utf8mb4"
+    set mysql_connection_string "mysql://USER:PASSWORD@DATABASEIP/DATABASENAME?waitForConnections=true&charset=utf8mb4"
+    or 
+    set mysql_connection_string "server=DATABASEIP;database=DATABASENAME;userid=USER;password=PASSWORD"
    ```
 4. Launch your server and enjoy. 
 
