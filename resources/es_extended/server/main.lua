@@ -121,7 +121,7 @@ if not Config.Multichar then
 end
 
 function loadESXPlayer(identifier, playerId, isNew)
-  local userData = {accounts = {}, inventory = {}, job = {}, job2 = {}, loadout = {}, playerName = GetPlayerName(playerId), weight = 0}
+  local userData = {accounts = {}, inventory = {}, job = {}, job2 = {}, loadout = {}, playerName = GetPlayerName(playerId), weight = 0, metadata = {}}
   
   local result = MySQL.prepare.await(loadPlayer, {identifier})
   local job, grade, jobObject, gradeObject = result.job, tostring(result.job_grade)
