@@ -4,7 +4,7 @@
   <h3 align="center">Template ESX Legacy 1.9.4</h3>
 
   <p align="center">
-    Une template faire pour débuter votre serveur !
+    A template to start your server !
     <br />
     <a href="https://discord.gg/v8nrrJd4Zw">Discord RexTon</a>
     ·
